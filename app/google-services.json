@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "60961186546",
+    "project_id": "share-today-37e8d",
+    "storage_bucket": "share-today-37e8d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:60961186546:android:1f4822a95ac4a8c48a266b",
+        "android_client_info": {
+          "package_name": "com.wswon.blanc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "60961186546-1lu6ebbmpl17uio26th58piongrt2dq7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.wswon.blanc",
+            "certificate_hash": "530b47cf2da4332a5e55198a1849a34286a6a67f"
+          }
+        },
+        {
+          "client_id": "60961186546-lm80nmm2u0avsoghs8lq4dam3iufeai1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBAodnSJuCx98jyVLKCadz6HbtU-9zHhc0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "60961186546-lm80nmm2u0avsoghs8lq4dam3iufeai1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
