@@ -3,6 +3,7 @@ package com.blanc.data.service
 import com.blanc.data.model.request.DiaryRequest
 import com.blanc.data.model.response.DiaryListResponse
 import com.blanc.data.model.response.SomeoneDiaryResponse
+import com.blanc.data.model.response.TodayDiaryResponse
 import com.blanc.data.model.response.YesterdayDiaryResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -25,6 +26,6 @@ interface ShareTodayApi {
     ): String
 
     @GET("/api/home/today-diary")
-    suspend fun getTodayDiary()
+    suspend fun getTodayDiary(): TodayDiaryResponse
 }
 

@@ -1,4 +1,4 @@
-package com.blanc.core_common
+package com.blanc.common
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry

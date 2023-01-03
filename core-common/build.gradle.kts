@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.blanc.core-common"
+    namespace = "com.blanc.common"
     compileSdk = Versions.Android.compileSdkVersion
 
     defaultConfig {

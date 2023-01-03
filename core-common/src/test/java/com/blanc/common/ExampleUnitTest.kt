@@ -1,4 +1,4 @@
-package com.blanc.core_common
+package com.blanc.common
 
 import org.junit.Assert.assertEquals
 import org.junit.Test

@@ -25,7 +25,7 @@ object Versions {
     const val rxJavaVersion = "3.0.1"
     const val rxAdapterVersion = "2.9.0"
     const val retrofitVersion = "2.6.2"
-    const val hiltVersion = "2.38.1"
+    const val hiltVersion = "2.44"
 
     const val tedPermissionVersion = "2.3.0"
 

@@ -84,6 +84,7 @@ dependencies {
     implementation(Deps.Compose.composeUiToolPreview)
     implementation(Deps.Compose.composeUiTest)
     implementation(Deps.Compose.composeViewModel)
+    implementation(Deps.Compose.composeHilt)
     implementation(Deps.Compose.composeCoil)
     implementation(Deps.Compose.composeConstraintLayout)
 
