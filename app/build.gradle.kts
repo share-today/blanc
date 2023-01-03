@@ -20,7 +20,7 @@ android {
         val version = "1.0.0"
         versionName = version
 
-        testInstrumentationRunner  = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
         }
@@ -59,6 +59,12 @@ android {
 }
 
 dependencies {
+    implementation(project(":data"))
+    implementation(project(":domain"))
+    implementation(project(":core-common"))
+
+
+    implementation(platform("com.google.firebase:firebase-bom:28.4.0"))
 
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")
     implementation("androidx.activity:activity-compose:1.6.1")
@@ -81,9 +87,9 @@ dependencies {
     implementation(Deps.Compose.composeCoil)
     implementation(Deps.Compose.composeConstraintLayout)
 
-//    implementation(Deps.Firebase.analytics)
-//    implementation(Deps.Firebase.crashlytics)
-//    implementation(Deps.Firebase.config)
+    implementation(Deps.Firebase.analytics)
+    implementation(Deps.Firebase.crashlytics)
+    implementation(Deps.Firebase.config)
 
     implementation(Deps.Android.X.core)
     implementation(Deps.Android.X.activity)
@@ -97,10 +103,6 @@ dependencies {
 
     implementation(Deps.Rx.rxAndroid)
     implementation(Deps.Rx.rxJava)
-
-    implementation(Deps.Network.retrofit)
-    implementation(Deps.Network.gson)
-    implementation(Deps.Network.rxAdapter)
 
     implementation(Deps.Hilt.hilt)
     kapt(Deps.Hilt.hiltCompiler)

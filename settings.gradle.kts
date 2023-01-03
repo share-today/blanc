@@ -14,3 +14,6 @@ dependencyResolutionManagement {
 }
 rootProject.name = "blanc"
 include(":app")
+include(":data")
+include(":domain")
+include(":core-common")
