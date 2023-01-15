@@ -5,9 +5,9 @@ import com.google.gson.annotations.SerializedName
 
 data class SomeoneDiaryResponse(
     @SerializedName("someoneStory")
-    val someoneStory: Any?,
+    val someoneStory: String?,
     @SerializedName("toTellSomeone")
-    val toTellSomeone: Any?,
+    val toTellSomeone: String?,
     @SerializedName("today")
     val today: String?
 )

@@ -7,5 +7,5 @@ data class TodayDiaryResponse(
     @SerializedName("content")
     val content: String?,
     @SerializedName("isShared")
-    val isShared: Boolean?
+    val isShared: Boolean
 )

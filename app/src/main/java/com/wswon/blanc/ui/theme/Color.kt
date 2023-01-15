@@ -9,3 +9,14 @@ val Pink80 = Color(0xFFEFB8C8)
 val Purple40 = Color(0xFF6650a4)
 val PurpleGrey40 = Color(0xFF625b71)
 val Pink40 = Color(0xFF7D5260)
+
+val Text = Color(0xFF2B2B2B)
+val SubText = Color(0xFF979797)
+val Icon = Text
+val DefaultState = Color(0xFFBEBEBE)
+val SubBackground = Color(0xFFEBEBEB)
+val Identity = Color(0xFFE0E9FF)
+val SubIdentity = Color(0xFFFFE0E0)
+
+
+
