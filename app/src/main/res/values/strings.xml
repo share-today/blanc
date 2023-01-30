@@ -1,8 +1,12 @@
 <resources>
-    <string name="app_name">blanc</string>
+    <string name="app_name">하루 공유</string>
     <string name="send">보내기</string>
     <string name="today_tab">나의 오늘</string>
     <string name="my_yesterday_tab">나의 어제</string>
     <string name="someone_yesterday_tab">누군가의 어제</string>
     <string name="today_input_hint">누군가에게 털어놓고 싶은 일이 있었나요?</string>
+
+    <string name="login_kakao">카카오톡으로 로그인</string>
+    <string name="login_google">Google로 로그인</string>
+    <string name="login_apple">Apple로 로그인</string>
 </resources>

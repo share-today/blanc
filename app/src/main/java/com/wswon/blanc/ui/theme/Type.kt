@@ -71,6 +71,7 @@ val Typography = Typography(
         fontFamily = SsurroundFontFamily,
         fontSize = 16.sp,
         fontWeight = FontWeight.Bold,
+        lineHeight = 24.sp,
     ),
     body1 = TextStyle(
         fontFamily = SsurroundFontFamily,
@@ -80,7 +81,8 @@ val Typography = Typography(
     body2 = TextStyle(
         fontFamily = SsurroundFontFamily,
         fontSize = 16.sp,
-        fontWeight = FontWeight.W300
+        fontWeight = FontWeight.W300,
+        lineHeight = 24.sp,
     ),
     button = TextStyle(
         fontFamily = SsurroundFontFamily,
@@ -90,6 +92,6 @@ val Typography = Typography(
     caption = TextStyle(
         fontFamily = SsurroundFontFamily,
         fontSize = 12.sp,
-        fontWeight = FontWeight.W300
+        fontWeight = FontWeight.W300,
     ),
 )

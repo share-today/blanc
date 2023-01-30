@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.wswon.blanc.R
@@ -27,18 +28,22 @@ import com.wswon.blanc.ui.theme.DefaultState
 
 @Preview
 @Composable
-fun ShareTodayPost(modifier: Modifier = Modifier, onClickSend: () -> Unit = {}) {
+fun InputDiary(
+    modifier: Modifier = Modifier,
+    backgroundBrush: Brush = Brush.verticalGradient(
+        colors = listOf(
+            Color(0xFFE7EDFF),
+            Color(0xFFD8E3FE)
+        )
+    ),
+    inputTextMinHeight: Dp = 100.dp,
+    onClickSend: () -> Unit = {}
+) {
     ConstraintLayout(
         modifier
-            .width(327.dp)
-            .heightIn(min = 327.dp)
+            .widthIn(max = 327.dp)
             .background(
-                brush = Brush.verticalGradient(
-                    colors = listOf(
-                        Color(0xFFE7EDFF),
-                        Color(0xFFD8E3FE)
-                    )
-                ),
+                brush = backgroundBrush,
                 shape = RoundedCornerShape(8.dp)
             )
             .padding(24.dp)
@@ -57,7 +62,7 @@ fun ShareTodayPost(modifier: Modifier = Modifier, onClickSend: () -> Unit = {}) 
         InputText(
             modifier = Modifier
                 .fillMaxWidth()
-                .heightIn(min = 191.dp)
+                .heightIn(min = inputTextMinHeight)
                 .constrainAs(inputText) {
                     top.linkTo(date.bottom, 30.dp)
                 },

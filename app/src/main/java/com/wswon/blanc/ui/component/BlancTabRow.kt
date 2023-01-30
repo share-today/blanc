@@ -24,7 +24,11 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
 import com.wswon.blanc.BlancDestination
+import com.wswon.blanc.SomeoneYesterday
+import com.wswon.blanc.ui.theme.Identity
+import com.wswon.blanc.ui.theme.SubIdentity
 import java.util.*
 
 @Composable
@@ -50,10 +54,13 @@ fun BlancTabRow(
                 }
         ) {
             screens.forEach { screen ->
+                val selectedColor = if (screen is SomeoneYesterday) SubIdentity else Identity
+
                 RallyTab(
                     text = stringResource(id = screen.displayNameResId),
                     onSelected = { onTabSelected(screen) },
-                    selected = currentScreen == screen
+                    selected = currentScreen == screen,
+                    selectedColor = selectedColor
                 )
             }
         }
@@ -74,7 +81,8 @@ fun BlancTabRow(
 private fun RallyTab(
     text: String,
     onSelected: () -> Unit,
-    selected: Boolean
+    selected: Boolean,
+    selectedColor: Color,
 ) {
     val color = MaterialTheme.colors.onSurface
     val durationMillis = if (selected) TabFadeInAnimationDuration else TabFadeOutAnimationDuration
@@ -93,7 +101,7 @@ private fun RallyTab(
     val tabStyle =
         if (selected) MaterialTheme.typography.subtitle2 else MaterialTheme.typography.body2
 
-    Row(
+    ConstraintLayout(
         modifier = Modifier
             .padding(12.dp)
             .animateContentSize()
@@ -108,9 +116,35 @@ private fun RallyTab(
                     color = Color.Unspecified
                 )
             )
-            .clearAndSetSemantics { contentDescription = text }
+            .clearAndSetSemantics { contentDescription = text },
     ) {
-        Text(text.uppercase(Locale.getDefault()), color = tabTintColor, style = tabStyle)
+
+        val (indicator, tabText) = createRefs()
+
+        Spacer(
+            modifier = Modifier
+                .padding(top = 8.dp)
+                .height(18.dp)
+                .background(color = if (selected) selectedColor else Color.Transparent)
+                .constrainAs(indicator) {
+                    start.linkTo(tabText.start)
+                    end.linkTo(tabText.end)
+                    top.linkTo(parent.top)
+                    width = Dimension.fillToConstraints
+                }
+        )
+
+        Text(
+            modifier = Modifier.constrainAs(tabText) {
+                start.linkTo(parent.start)
+                top.linkTo(parent.top)
+                end.linkTo(parent.end)
+                bottom.linkTo(parent.bottom)
+            },
+            text = text.uppercase(Locale.getDefault()),
+            color = tabTintColor,
+            style = tabStyle
+        )
     }
 }
 

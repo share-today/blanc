@@ -13,7 +13,10 @@ import com.wswon.blanc.R
 
 @Preview(showBackground = true)
 @Composable
-fun BlancTopNavigation() {
+fun BlancTopNavigation(
+    onClickAlert: () -> Unit = {},
+    onClickMenu: () -> Unit = {}
+) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -21,7 +24,7 @@ fun BlancTopNavigation() {
             .padding(24.dp)
     ) {
         IconButton(
-            onClick = { },
+            onClick = onClickAlert,
             modifier = Modifier.size(24.dp)
         ) {
             Icon(painter = painterResource(id = R.drawable.ic_bell), contentDescription = "alert")
@@ -29,7 +32,7 @@ fun BlancTopNavigation() {
         }
 
         IconButton(
-            onClick = { },
+            onClick = onClickMenu,
             modifier = Modifier
                 .size(24.dp)
                 .align(Alignment.CenterEnd)
