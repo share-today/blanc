@@ -3,10 +3,6 @@ package com.wswon.blanc.ui.component.drawer
 import android.os.Parcelable
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -15,7 +11,10 @@ import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 
 @Composable
-fun DrawerMenu(onSelectedMenu: (DrawerItem) -> Unit) {
+fun DrawerMenu(
+    currentSelectedItem: DrawerItem,
+    onSelectedMenu: (DrawerItem) -> Unit
+) {
     Box(
         modifier = Modifier
             .width(200.dp)
@@ -28,28 +27,26 @@ fun DrawerMenu(onSelectedMenu: (DrawerItem) -> Unit) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            var isSelectedItem by rememberSaveable { mutableStateOf<DrawerItem>(DrawerItem.Home) }
             val onClickItem: (DrawerItem) -> Unit = { item ->
-                isSelectedItem = item
                 onSelectedMenu(item)
             }
 
             DrawerMenuItem(
                 drawerItem = DrawerItem.Home,
                 modifier = Modifier,
-                isSelected = isSelectedItem == DrawerItem.Home,
+                isSelected = currentSelectedItem == DrawerItem.Home,
                 onClickItem = onClickItem
             )
             DrawerMenuItem(
                 drawerItem = DrawerItem.Calendar,
                 modifier = Modifier,
-                isSelected = isSelectedItem == DrawerItem.Calendar,
+                isSelected = currentSelectedItem == DrawerItem.Calendar,
                 onClickItem = onClickItem
             )
             DrawerMenuItem(
                 drawerItem = DrawerItem.Setting,
                 modifier = Modifier,
-                isSelected = isSelectedItem == DrawerItem.Setting,
+                isSelected = currentSelectedItem == DrawerItem.Setting,
                 onClickItem = onClickItem
             )
         }

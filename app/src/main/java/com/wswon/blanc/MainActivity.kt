@@ -138,7 +138,15 @@ class MainActivity : ComponentActivity() {
                 }
             },
             drawerContent = {
-                DrawerMenu { item ->
+                val currentItem = when {
+                    tabRowScreens.contains(currentScreen) -> DrawerItem.Home
+                    currentScreen is Calendar -> DrawerItem.Calendar
+                    currentScreen is Setting -> DrawerItem.Setting
+                    else -> DrawerItem.Home
+                }
+                DrawerMenu(
+                    currentSelectedItem = currentItem
+                ) { item ->
                     scope.launch {
                         scaffoldState.drawerState.close()
                     }
