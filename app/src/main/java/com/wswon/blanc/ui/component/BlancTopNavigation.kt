@@ -14,8 +14,12 @@ import com.wswon.blanc.R
 @Preview(showBackground = true)
 @Composable
 fun BlancTopNavigation(
+    isShowAlert: Boolean = true,
+    isShowMenu: Boolean = true,
+    isShowBack: Boolean = true,
     onClickAlert: () -> Unit = {},
-    onClickMenu: () -> Unit = {}
+    onClickMenu: () -> Unit = {},
+    onClickBack: () -> Unit = {}
 ) {
     Box(
         modifier = Modifier
@@ -23,21 +27,43 @@ fun BlancTopNavigation(
             .height(72.dp)
             .padding(24.dp)
     ) {
-        IconButton(
-            onClick = onClickAlert,
-            modifier = Modifier.size(24.dp)
-        ) {
-            Icon(painter = painterResource(id = R.drawable.ic_bell), contentDescription = "alert")
-
+        if (isShowAlert) {
+            IconButton(
+                onClick = onClickAlert,
+                modifier = Modifier.size(24.dp)
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_bell),
+                    contentDescription = "alert"
+                )
+            }
         }
 
-        IconButton(
-            onClick = onClickMenu,
-            modifier = Modifier
-                .size(24.dp)
-                .align(Alignment.CenterEnd)
-        ) {
-            Icon(painter = painterResource(id = R.drawable.ic_menu), contentDescription = "menu")
+        if (isShowBack) {
+            IconButton(
+                onClick = onClickBack,
+                modifier = Modifier.size(24.dp)
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_back_arrow),
+                    contentDescription = "back"
+                )
+            }
         }
+
+        if (isShowMenu) {
+            IconButton(
+                onClick = onClickMenu,
+                modifier = Modifier
+                    .size(24.dp)
+                    .align(Alignment.CenterEnd)
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_menu),
+                    contentDescription = "menu"
+                )
+            }
+        }
+
     }
 }
