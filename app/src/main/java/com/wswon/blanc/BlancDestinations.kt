@@ -52,6 +52,13 @@ object Calendar : BlancDestination {
     override val isRouteScreen: Boolean = true
 }
 
+object DiaryDetail : BlancDestination {
+    @StringRes
+    override val displayNameResId = R.string.diary_detail
+    override val route = "diary_detail"
+    override val isRouteScreen: Boolean = true
+}
+
 object Setting : BlancDestination {
     @StringRes
     override val displayNameResId = R.string.setting

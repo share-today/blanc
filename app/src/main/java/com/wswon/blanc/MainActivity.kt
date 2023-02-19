@@ -26,7 +26,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.wswon.blanc.ui.alert.AlertScreen
 import com.wswon.blanc.ui.calendar.CalendarScreen
-import com.wswon.blanc.ui.calendar.CalendarViewModel
+import com.wswon.blanc.ui.calendar.screen.DiaryDetailScreen
 import com.wswon.blanc.ui.component.BlancTabRow
 import com.wswon.blanc.ui.component.BlancTopNavigation
 import com.wswon.blanc.ui.component.InputDiary
@@ -46,7 +46,6 @@ import com.wswon.blanc.ui.theme.BlancTheme
 import com.wswon.blanc.ui.today.TodayScreen
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import java.time.YearMonth
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -69,8 +68,7 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     private fun MainScreen(
-        viewModel: HomeViewModel = hiltViewModel(),
-        calendarViewModel: CalendarViewModel = hiltViewModel(),
+        viewModel: HomeViewModel = hiltViewModel()
     ) {
 
         val navController = rememberNavController()
@@ -84,8 +82,6 @@ class MainActivity : ComponentActivity() {
 
         val scaffoldState = com.wswon.blanc.ui.component.rememberScaffoldState()
         val scope = rememberCoroutineScope()
-
-        val list = calendarViewModel.yearMonthList
 
         val callback = remember {
             object : OnBackPressedCallback(scaffoldState.drawerState.isOpen) {
@@ -165,7 +161,7 @@ class MainActivity : ComponentActivity() {
             modifier = Modifier
                 .background(Color.Transparent)
         ) { innerPadding ->
-            BlancNavHost(navController, Modifier.padding(innerPadding), list)
+            BlancNavHost(navController, Modifier.padding(innerPadding))
         }
     }
 
@@ -191,7 +187,6 @@ class MainActivity : ComponentActivity() {
 fun BlancNavHost(
     navController: NavHostController,
     modifier: Modifier,
-    yearMonthList: List<YearMonth>
 ) {
     NavHost(
         navController = navController,
@@ -208,7 +203,10 @@ fun BlancNavHost(
             SomeoneYesterdayScreen()
         }
         composable(route = Calendar.route) {
-            CalendarScreen(yearMonthList)
+            CalendarScreen()
+        }
+        composable(route = DiaryDetail.route) {
+            DiaryDetailScreen()
         }
         composable(route = Alert.route) {
             AlertScreen()
