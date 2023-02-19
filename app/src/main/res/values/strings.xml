@@ -14,6 +14,7 @@
     <string name="calendar">이야기 묶음</string>
     <string name="setting">설정</string>
     <string name="alert">알림</string>
+    <string name="diary_detail">""</string>
     <string name="year_month_format">yy년 M월</string>
     <string name="app_info_header">앱 정보</string>
     <string name="customer_service">고객 센터</string>

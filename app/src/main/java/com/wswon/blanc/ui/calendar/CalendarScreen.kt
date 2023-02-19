@@ -6,15 +6,15 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.wswon.blanc.ui.component.BlancCalendarView
-import java.time.YearMonth
 
 @Composable
-fun CalendarScreen(yearMonthList: List<YearMonth>) {
+fun CalendarScreen(viewModel: CalendarViewModel = hiltViewModel()) {
     LazyColumn(
         modifier = Modifier
     ) {
-        items(yearMonthList) { yearMonth ->
+        items(viewModel.yearMonthList) { yearMonth ->
             BlancCalendarView(
                 modifier = Modifier.padding(top = 26.dp, bottom = 14.dp),
                 yearMonth = yearMonth

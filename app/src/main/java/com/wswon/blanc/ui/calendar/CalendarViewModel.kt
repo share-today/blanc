@@ -1,5 +1,6 @@
 package com.wswon.blanc.ui.calendar
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.blanc.common.WLog
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -7,7 +8,9 @@ import java.time.YearMonth
 import javax.inject.Inject
 
 @HiltViewModel
-class CalendarViewModel @Inject constructor(): ViewModel() {
+class CalendarViewModel @Inject constructor(
+    private val savedStateHandle: SavedStateHandle
+): ViewModel() {
 
     val yearMonthList = mutableListOf<YearMonth>()
     init {

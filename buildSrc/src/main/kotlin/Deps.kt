@@ -21,15 +21,9 @@ object Deps {
     object Kakao {
     }
 
-    object Rx {
-        const val rxAndroid = "io.reactivex.rxjava3:rxandroid:${Versions.rxAndroidVersion}"
-        const val rxJava = "io.reactivex.rxjava3:rxkotlin:${Versions.rxJavaVersion}"
-    }
-
     object Network {
         const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofitVersion}"
         const val gson = "com.squareup.retrofit2:converter-gson:${Versions.retrofitVersion}"
-        const val rxAdapter = "com.squareup.retrofit2:adapter-rxjava3:${Versions.rxAdapterVersion}"
     }
 
     const val permission = "io.github.ParkSangGwon:tedpermission:${Versions.tedPermissionVersion}"
@@ -66,8 +60,6 @@ object Deps {
             "androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.composeViewModel}"
         const val composeLiveData =
             "androidx.compose.runtime:runtime-livedata:${Versions.composeVersion}"
-        const val composeRxJava =
-            "androidx.compose.runtime:runtime-rxjava2:${Versions.composeVersion}"
         const val composeUiTest = "androidx.compose.ui:ui-test-junit4:${Versions.composeVersion}"
         const val composeNavigation =
             "androidx.navigation:navigation-compose:${Versions.composeNavigation}"

@@ -100,9 +100,6 @@ dependencies {
 
     implementation(Deps.Android.material)
 
-    implementation(Deps.Rx.rxAndroid)
-    implementation(Deps.Rx.rxJava)
-
     implementation(Deps.Hilt.hilt)
     kapt(Deps.Hilt.hiltCompiler)
 
