@@ -1,7 +1,7 @@
 object Versions {
     object Android {
         const val compileSdkVersion = 33
-        const val minSdkVersion = 24
+        const val minSdkVersion = 26
         const val targetSdkVersion = 33
     }
 
@@ -33,7 +33,7 @@ object Versions {
 
     const val composeCompile = "1.2.0"
     const val composeVersion = "1.2.0"
-    const val composeViewModel = "1.0.0-alpha07"
+    const val composeViewModel = "2.5.1"
     const val composeActivity = "1.3.1"
     const val composeCoil = "1.4.0"
     const val composePaging = "1.0.0-alpha14"
