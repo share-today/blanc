@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.wswon.blanc.R
 import java.time.DayOfWeek
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
@@ -24,31 +25,40 @@ import java.util.*
 @Composable
 fun BlancCalendarView(
     modifier: Modifier,
-    yearMonth: YearMonth
+    currentMonth: YearMonth,
+    dataList: List<LocalDateTime>
 ) {
     val locale = Locale.KOREA
 
     // 현재 월의 첫 번째 날짜를 계산합니다.
-    val firstMonthDay = yearMonth.atDay(1)
+    val firstMonthDay = currentMonth.atDay(1)
 
     // 현재 월의 마지막 날짜를 계산합니다.
-    val lastMonthDay = yearMonth.atEndOfMonth()
+    val lastMonthDay = currentMonth.atEndOfMonth()
 
     // 이전 달의 마지막 날짜를 계산합니다.
-    val previousMonth = yearMonth.minusMonths(1)
+    val previousMonth = currentMonth.minusMonths(1)
     val daysInPreviousMonth = previousMonth.lengthOfMonth()
     val startDayFromPreviousMonth = firstMonthDay.dayOfWeek.getValue(DayOfWeek.SUNDAY)
 
     // 다음 달의 첫 번째 날짜를 계산합니다.
-    val nextMonth = yearMonth.plusMonths(1)
+    val nextMonth = currentMonth.plusMonths(1)
     val startDayFromNextMonth = lastMonthDay.dayOfWeek.getValue(DayOfWeek.SUNDAY)
+
+    val hasDiaryData: (LocalDateTime) -> Boolean = { date ->
+        dataList.any {
+            it.year == date.year
+                && it.month == date.month
+                && it.dayOfMonth == date.dayOfMonth
+        }
+    }
 
     Column(
         modifier = modifier.padding(horizontal = 24.dp)
     ) {
         // 월의 이름을 표시합니다.
         Text(
-            text = yearMonth.format(
+            text = currentMonth.format(
                 DateTimeFormatter.ofPattern(
                     stringResource(R.string.year_month_format),
                     locale
@@ -83,11 +93,12 @@ fun BlancCalendarView(
             ((daysInPreviousMonth - startDayFromPreviousMonth + 2)..daysInPreviousMonth).forEach { day ->
                 DayBox(
                     modifier = Modifier.weight(1f),
-                    enabled = false,
                     day = Day(
                         yearMonth = previousMonth,
                         day = day
                     ),
+                    hasItem = false,
+                    enabled = false,
                 )
             }
 
@@ -96,9 +107,10 @@ fun BlancCalendarView(
                 DayBox(
                     modifier = Modifier.weight(1f),
                     day = Day(
-                        yearMonth = yearMonth,
+                        yearMonth = currentMonth,
                         day = day
                     ),
+                    hasItem = hasDiaryData(getLocalDateTime(currentMonth, day)),
                 )
             }
         }
@@ -116,9 +128,10 @@ fun BlancCalendarView(
                         DayBox(
                             modifier = Modifier.weight(1f),
                             day = Day(
-                                yearMonth = yearMonth,
+                                yearMonth = currentMonth,
                                 day = day
                             ),
+                            hasItem = hasDiaryData(getLocalDateTime(currentMonth, day)),
                         )
                     } else {
                         DayBox(
@@ -127,6 +140,7 @@ fun BlancCalendarView(
                                 yearMonth = nextMonth,
                                 day = (day - lastMonthDay.dayOfMonth)
                             ),
+                            hasItem = false,
                             enabled = false
                         )
                     }
@@ -146,6 +160,16 @@ fun BlancCalendarView(
 //        }
     }
 }
+
+@Composable
+private fun getLocalDateTime(
+    previousMonth: YearMonth,
+    day: Int
+) = LocalDateTime.of(
+    previousMonth.year,
+    previousMonth.month,
+    day, 0, 0
+)
 
 private fun DayOfWeek.getValue(startDayOfWeek: DayOfWeek): Int {
     val value = value + (8 - startDayOfWeek.value)
@@ -169,14 +193,13 @@ data class Day(
 fun DayBox(
     modifier: Modifier = Modifier,
     day: Day,
+    hasItem: Boolean,
     enabled: Boolean = true,
 ) {
     val backgroundColor =
         if (enabled) MaterialTheme.colors.secondary else Color.Transparent
     val textColor =
         if (enabled) MaterialTheme.colors.primary else Color.Transparent
-
-    val hasItem = false
 
     Box(
         modifier = modifier
