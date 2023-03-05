@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">하루 공유</string>
     <string name="send">보내기</string>
+    <string name="cancel">취소</string>
     <string name="today_tab">나의 오늘</string>
     <string name="my_yesterday_tab">나의 어제</string>
     <string name="someone_yesterday_tab">누군가의 어제</string>
@@ -27,8 +28,31 @@
     <string name="setting_terms_of_service">이용약관</string>
     <string name="setting_privacy_policy">개인정보 처리 방침</string>
     <string name="setting_open_source_license">오픈소스 라이선스</string>
-    
+
     <string name="setting_app_version">앱 버전</string>
     <string name="setting_logout">로그아웃</string>
     <string name="setting_leave">회원탈퇴</string>
+
+    <string name="dialog_ads">광고를 보면 최대 500자까지 더 많은 마음속 이야기를 적을 수 있어요.</string>
+    <string name="dialog_report">누군가의 이야기로 불쾌했나요?\n게시물을 즉시 삭제하고, 검토를 통해 해당 사용자를 제재할게요.</string>
+    <string name="dialog_logout">로그아웃하겠어요?</string>
+    <string name="dialog_leave">정말 탈퇴하겠어요?</string>
+    <string name="dialog_send_today">나의 오늘을 누군가에게 보낼까요?\n분명 나의 이야기를 잘 들어줄 누군가에게 도착할 거예요.</string>
+    <string name="dialog_send_edit_comments">수정된 이야기를 누군가에게 보낼까요?\n이야기를 전달받은 누군가의 마음은 따뜻해질 거예요.</string>
+    <string name="dialog_send_comments">이야기를 누군가에게 보낼까요?\n이야기를 전달받은 누군가의 마음은 따뜻해질 거예요.</string>
+    <string name="dialog_send_opinion">의견을 보낼까요?\n주신 의견들은 꼼꼼히 읽어볼게요.</string>
+    <string name="dialog_edit_comments">이야기를 수정하겠어요?\n누군가는 이미 수정 전 이야기를 확인했을 수도 있어요.</string>
+    <string name="dialog_edit_yesterday">이야기를 수정하겠어요?\n어제 이야기는 수정해도 누군가에겐 수정 전 이야기가 보여져요.</string>
+    <string name="dialog_edit_today">이야기를 수정하겠어요?\n이전 이야기는 누군가에게 전해지지 않을 거예요.</string>
+    <string name="dialog_delete_yesterday">이야기를 지우고 싶은가요?\n삭제하면 복구가 어려워요.</string>
+    <string name="dialog_delete_today">다른 이야기를 적어보고 싶은가요?\n삭제하면 해당 이야기는 누군가에게 전해지지 않으며, 복구가 어려워요.</string>
+    <string name="dialog_delete_comments">누군가의 이야기가 맘에 들지 않나요?\n지금 즉시 삭제할 수 있어요.</string>
+
+    <string name="dialog_button_watching_ads">광고 보기</string>
+    <string name="dialog_button_report">신고하기</string>
+    <string name="dialog_button_logout">로그아웃</string>
+    <string name="dialog_button_leave">탈퇴</string>
+    <string name="dialog_button_send">보내기</string>
+    <string name="dialog_button_edit">수정하기</string>
+    <string name="dialog_button_delete">삭제하기</string>
 </resources>

@@ -21,14 +21,31 @@ import androidx.navigation.NavHostController
 import com.wswon.blanc.*
 import com.wswon.blanc.R
 import com.wswon.blanc.ui.component.SectionHeaderView
+import com.wswon.blanc.ui.component.dialog.BlancDialog
+import com.wswon.blanc.ui.component.dialog.DialogType
 import com.wswon.blanc.ui.theme.DefaultState
 
 @Composable
 fun SettingScreen(navController: NavHostController) {
+    val showDialog = rememberSaveable { mutableStateOf(false) }
+
+    if (showDialog.value) {
+        BlancDialog(
+            DialogType.Advertise,
+            onConfirm = {
+                showDialog.value = false
+            },
+            onDismiss = {
+                showDialog.value = false
+            }
+        )
+    }
+
+
     val onClickItem: (SettingItemType) -> Unit = { itemType ->
         when (itemType) {
             SettingItemType.Alert -> {
-
+                showDialog.value = true
             }
             SettingItemType.SendComments -> {
                 navController.navigateSingleTopTo(SendComments.route)
