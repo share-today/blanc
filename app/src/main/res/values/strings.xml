@@ -7,6 +7,9 @@
     <string name="someone_yesterday_tab">누군가의 어제</string>
     <string name="today_input_hint">누군가에게 털어놓고 싶은 일이 있었나요?</string>
 
+    <string name="my_diary">나의 그날</string>
+    <string name="someone_diary">누군가의 그날</string>
+
     <string name="login_kakao">카카오톡으로 로그인</string>
     <string name="login_google">Google로 로그인</string>
     <string name="login_apple">Apple로 로그인</string>
@@ -41,12 +44,12 @@
     <string name="dialog_send_edit_comments">수정된 이야기를 누군가에게 보낼까요?\n이야기를 전달받은 누군가의 마음은 따뜻해질 거예요.</string>
     <string name="dialog_send_comments">이야기를 누군가에게 보낼까요?\n이야기를 전달받은 누군가의 마음은 따뜻해질 거예요.</string>
     <string name="dialog_send_opinion">의견을 보낼까요?\n주신 의견들은 꼼꼼히 읽어볼게요.</string>
-    <string name="dialog_edit_comments">이야기를 수정하겠어요?\n누군가는 이미 수정 전 이야기를 확인했을 수도 있어요.</string>
-    <string name="dialog_edit_yesterday">이야기를 수정하겠어요?\n어제 이야기는 수정해도 누군가에겐 수정 전 이야기가 보여져요.</string>
     <string name="dialog_edit_today">이야기를 수정하겠어요?\n이전 이야기는 누군가에게 전해지지 않을 거예요.</string>
-    <string name="dialog_delete_yesterday">이야기를 지우고 싶은가요?\n삭제하면 복구가 어려워요.</string>
-    <string name="dialog_delete_today">다른 이야기를 적어보고 싶은가요?\n삭제하면 해당 이야기는 누군가에게 전해지지 않으며, 복구가 어려워요.</string>
-    <string name="dialog_delete_comments">누군가의 이야기가 맘에 들지 않나요?\n지금 즉시 삭제할 수 있어요.</string>
+    <string name="dialog_edit_yesterday">이야기를 수정하겠어요?\n어제 이야기는 수정해도 누군가에겐 수정 전 이야기가 보여져요.</string>
+    <string name="dialog_edit_comments">이야기를 수정하겠어요?\n누군가는 이미 수정 전 이야기를 확인했을 수도 있어요.</string>
+    <string name="dialog_delete_today_diary">다른 이야기를 적어보고 싶은가요?\n삭제하면 해당 이야기는 누군가에게 전해지지 않으며, 복구가 어려워요.</string>
+    <string name="dialog_delete_my_diary">이야기를 지우고 싶은가요?\n삭제하면 복구가 어려워요.</string>
+    <string name="dialog_delete_others">누군가의 이야기가 맘에 들지 않나요?\n지금 즉시 삭제할 수 있어요.</string>
 
     <string name="dialog_button_watching_ads">광고 보기</string>
     <string name="dialog_button_report">신고하기</string>
