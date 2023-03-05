@@ -10,10 +10,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
+import com.wswon.blanc.navigateToDiaryDetail
 import com.wswon.blanc.ui.component.BlancCalendarView
 
 @Composable
-fun CalendarScreen(viewModel: CalendarViewModel = hiltViewModel()) {
+fun CalendarScreen(
+    viewModel: CalendarViewModel = hiltViewModel(),
+    navController: NavHostController
+) {
     val state by viewModel.state.collectAsState()
     val monthList by derivedStateOf { state.monthList }
 
@@ -24,7 +29,10 @@ fun CalendarScreen(viewModel: CalendarViewModel = hiltViewModel()) {
             BlancCalendarView(
                 modifier = Modifier.padding(top = 26.dp, bottom = 14.dp),
                 currentMonth = yearMonth,
-                dataList = state.hasDataList
+                dataList = state.hasDataList,
+                onClickDay = { day ->
+                    navController.navigateToDiaryDetail(day)
+                }
             )
         }
     }

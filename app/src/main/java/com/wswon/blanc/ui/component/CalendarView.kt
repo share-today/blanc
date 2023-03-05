@@ -1,5 +1,6 @@
 package com.wswon.blanc.ui.component
 
+import android.os.Parcelable
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -14,6 +15,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.wswon.blanc.R
+import kotlinx.parcelize.Parcelize
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -26,7 +28,8 @@ import java.util.*
 fun BlancCalendarView(
     modifier: Modifier,
     currentMonth: YearMonth,
-    dataList: List<LocalDateTime>
+    dataList: List<LocalDateTime>,
+    onClickDay: (Day) -> Unit
 ) {
     val locale = Locale.KOREA
 
@@ -92,7 +95,6 @@ fun BlancCalendarView(
         ) {
             ((daysInPreviousMonth - startDayFromPreviousMonth + 2)..daysInPreviousMonth).forEach { day ->
                 DayBox(
-                    modifier = Modifier.weight(1f),
                     day = Day(
                         yearMonth = previousMonth,
                         day = day
@@ -105,12 +107,12 @@ fun BlancCalendarView(
             // 이번 달의 첫 번째 주를 표시합니다.
             for (day in 1..7 - startDayFromPreviousMonth + 1) {
                 DayBox(
-                    modifier = Modifier.weight(1f),
                     day = Day(
                         yearMonth = currentMonth,
                         day = day
                     ),
                     hasItem = hasDiaryData(getLocalDateTime(currentMonth, day)),
+                    onClick = onClickDay
                 )
             }
         }
@@ -126,16 +128,15 @@ fun BlancCalendarView(
                         (weekOfMonth - 1) * 7 + dayOfWeek.getValue(DayOfWeek.SUNDAY) - startDayFromPreviousMonth + 1
                     if (day <= lastMonthDay.dayOfMonth) {
                         DayBox(
-                            modifier = Modifier.weight(1f),
                             day = Day(
                                 yearMonth = currentMonth,
                                 day = day
                             ),
                             hasItem = hasDiaryData(getLocalDateTime(currentMonth, day)),
+                            onClick = onClickDay
                         )
                     } else {
                         DayBox(
-                            modifier = Modifier.weight(1f),
                             day = Day(
                                 yearMonth = nextMonth,
                                 day = (day - lastMonthDay.dayOfMonth)
@@ -176,11 +177,11 @@ private fun DayOfWeek.getValue(startDayOfWeek: DayOfWeek): Int {
     return if (value > 7) value - 7 else value
 }
 
-
+@Parcelize
 data class Day(
     val yearMonth: YearMonth,
     val day: Int,
-) {
+): Parcelable {
 
     fun isToday(): Boolean {
         return YearMonth.now() == yearMonth
@@ -188,13 +189,13 @@ data class Day(
     }
 }
 
-
 @Composable
-fun DayBox(
+private fun RowScope.DayBox(
     modifier: Modifier = Modifier,
     day: Day,
     hasItem: Boolean,
     enabled: Boolean = true,
+    onClick: (Day) -> Unit = {}
 ) {
     val backgroundColor =
         if (enabled) MaterialTheme.colors.secondary else Color.Transparent
@@ -203,8 +204,14 @@ fun DayBox(
 
     Box(
         modifier = modifier
+            .weight(1f)
             .aspectRatio(1f)
-            .clickable(enabled) { /* 클릭 이벤트 처리 */ },
+            .clickable(
+                hasItem && enabled,
+                onClick = {
+                    onClick(day)
+                }
+            ),
         contentAlignment = Alignment.Center
     ) {
         val style =

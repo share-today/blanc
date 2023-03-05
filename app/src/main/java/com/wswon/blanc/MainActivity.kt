@@ -27,10 +27,7 @@ import androidx.navigation.compose.rememberNavController
 import com.wswon.blanc.ui.alert.AlertScreen
 import com.wswon.blanc.ui.calendar.CalendarScreen
 import com.wswon.blanc.ui.calendar.screen.DiaryDetailScreen
-import com.wswon.blanc.ui.component.BlancTabRow
-import com.wswon.blanc.ui.component.BlancTopNavigation
-import com.wswon.blanc.ui.component.InputDiary
-import com.wswon.blanc.ui.component.RtlDrawerScaffold
+import com.wswon.blanc.ui.component.*
 import com.wswon.blanc.ui.component.drawer.DrawerItem
 import com.wswon.blanc.ui.component.drawer.DrawerMenu
 import com.wswon.blanc.ui.component.drawer.DrawerMenuShape
@@ -46,6 +43,7 @@ import com.wswon.blanc.ui.theme.BlancTheme
 import com.wswon.blanc.ui.today.TodayScreen
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.time.YearMonth
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -76,11 +74,11 @@ class MainActivity : ComponentActivity() {
         val currentDestination = currentBackStack?.destination
 
         val currentScreen =
-            allScreens.find { it.route == currentDestination?.route } ?: Today
+            BlancDestination.find(currentDestination?.route) ?: Today
         val currentTab =
             tabRowScreens.find { it.route == currentDestination?.route } ?: Today
 
-        val scaffoldState = com.wswon.blanc.ui.component.rememberScaffoldState()
+        val scaffoldState = rememberScaffoldState()
         val scope = rememberCoroutineScope()
 
         val callback = remember {
@@ -211,16 +209,28 @@ fun BlancNavHost(
             SomeoneYesterdayScreen()
         }
         composable(route = Calendar.route) {
-            CalendarScreen()
+            CalendarScreen(navController = navController)
         }
-        composable(route = DiaryDetail.route) {
-            DiaryDetailScreen()
+        composable(
+            route = DiaryDetail.routeWithArguments,
+            arguments = DiaryDetail.arguments,
+            deepLinks = DiaryDetail.deepLinks
+        ) { navBackStackEntry ->
+            val arguments = requireNotNull(navBackStackEntry.arguments)
+            val year: Int =
+                arguments.getInt(DiaryDetail.yearArg)
+            val month: Int =
+                arguments.getInt(DiaryDetail.monthArg)
+            val day: Int =
+                arguments.getInt(DiaryDetail.dayArg)
+
+            DiaryDetailScreen(Day(YearMonth.of(year, month), day))
         }
         composable(route = Alert.route) {
             AlertScreen()
         }
         composable(route = Setting.route) {
-            SettingScreen(navController)
+            SettingScreen(navController = navController)
         }
         composable(route = SendComments.route) {
             SendCommentsScreen()
@@ -245,9 +255,13 @@ fun DefaultPreview() {
     }
 }
 
-fun NavHostController.navigateSingleTopTo(route: String) =
+fun NavHostController.navigateSingleTopTo(route: String) {
     this.navigate(route) { launchSingleTop = true }
+}
 
+fun NavHostController.navigateToDiaryDetail(day: Day) {
+    this.navigateSingleTopTo("${DiaryDetail.route}/${day.yearMonth.year}/${day.yearMonth.month.value}/${day.day}")
+}
 
 fun NavHostController.navigateToRouteDestination(
     destinations: List<BlancDestination>

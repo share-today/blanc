@@ -17,9 +17,8 @@ import com.wswon.blanc.ui.component.InputDiary
 @Composable
 fun TodayScreen() {
     Column(
-        modifier =
-        Modifier
-            .padding(16.dp)
+        modifier = Modifier
+            .padding(24.dp)
             .verticalScroll(rememberScrollState())
             .semantics { contentDescription = "Today Screen" }
     ) {

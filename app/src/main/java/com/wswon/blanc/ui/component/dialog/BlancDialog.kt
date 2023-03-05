@@ -97,22 +97,21 @@ enum class DialogType(
         R.string.dialog_button_edit,
         R.string.cancel
     ),
-
-    DeleteToday(
+    DeleteTodayDiary(
         R.drawable.ic_delete,
-        R.string.dialog_delete_today,
+        R.string.dialog_delete_today_diary,
         R.string.dialog_button_delete,
         R.string.cancel
     ),
-    DeleteYesterday(
+    DeleteMyDiary(
         R.drawable.ic_delete,
-        R.string.dialog_delete_yesterday,
+        R.string.dialog_delete_my_diary,
         R.string.dialog_button_delete,
         R.string.cancel
     ),
-    DeleteComments(
+    DeleteOthers(
         R.drawable.ic_delete,
-        R.string.dialog_delete_comments,
+        R.string.dialog_delete_others,
         R.string.dialog_button_delete,
         R.string.cancel
     );
@@ -121,17 +120,20 @@ enum class DialogType(
 @Composable
 fun BlancDialog(
     type: DialogType,
+    isOpen: Boolean,
     onConfirm: () -> Unit,
     onDismiss: () -> Unit
 ) {
-    BlancDialog(
-        icon = type.iconResId,
-        message = stringResource(id = type.titleResId),
-        confirmText = stringResource(id = type.submitButtonResId),
-        onConfirm = onConfirm,
-        dismissText = stringResource(id = type.cancelButtonResId),
-        onDismiss = onDismiss
-    )
+    if (isOpen) {
+        BlancDialog(
+            icon = type.iconResId,
+            message = stringResource(id = type.titleResId),
+            confirmText = stringResource(id = type.submitButtonResId),
+            onConfirm = onConfirm,
+            dismissText = stringResource(id = type.cancelButtonResId),
+            onDismiss = onDismiss
+        )
+    }
 }
 
 @Composable

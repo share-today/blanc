@@ -32,6 +32,7 @@ fun SettingScreen(navController: NavHostController) {
     if (showDialog.value) {
         BlancDialog(
             DialogType.Advertise,
+            showDialog.value,
             onConfirm = {
                 showDialog.value = false
             },

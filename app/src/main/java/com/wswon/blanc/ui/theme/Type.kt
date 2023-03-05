@@ -95,3 +95,9 @@ val Typography = Typography(
         fontWeight = FontWeight.W300,
     ),
 )
+
+val Small = TextStyle(
+    fontFamily = SsurroundFontFamily,
+    fontSize = 14.sp,
+    fontWeight = FontWeight.W300,
+)

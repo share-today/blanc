@@ -1,11 +1,24 @@
 package com.wswon.blanc
 
 import androidx.annotation.StringRes
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
+import androidx.navigation.navDeepLink
 
 interface BlancDestination {
     val displayNameResId: Int
     val route: String
     val isRouteScreen: Boolean
+
+    companion object {
+        fun find(route: String?): BlancDestination? {
+            if (route.isNullOrEmpty()) return null
+
+            return allScreens.find {
+                it.route == route.split("/").firstOrNull()
+            }
+        }
+    }
 }
 
 val allScreens = listOf(
@@ -13,6 +26,7 @@ val allScreens = listOf(
     MyYesterday,
     SomeoneYesterday,
     Calendar,
+    DiaryDetail,
     Setting,
     Alert,
     Setting,
@@ -56,7 +70,21 @@ object DiaryDetail : BlancDestination {
     @StringRes
     override val displayNameResId = R.string.diary_detail
     override val route = "diary_detail"
-    override val isRouteScreen: Boolean = true
+    override val isRouteScreen: Boolean = false
+    const val yearArg = "year_arg"
+    const val monthArg = "month_arg"
+    const val dayArg = "day_arg"
+    val routeWithArguments = "$route/{$yearArg}/{$monthArg}/{$dayArg}"
+
+    val arguments = listOf(
+        navArgument(yearArg) { type = NavType.IntType },
+        navArgument(monthArg) { type = NavType.IntType },
+        navArgument(dayArg) { type = NavType.IntType }
+    )
+
+    val deepLinks = listOf(
+        navDeepLink { uriPattern = "blanc://$route/{$yearArg}/{$monthArg}/{$dayArg}" }
+    )
 }
 
 object Setting : BlancDestination {

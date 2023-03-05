@@ -78,7 +78,7 @@ fun BlancTabRow(
 }
 
 @Composable
-private fun RallyTab(
+fun RallyTab(
     text: String,
     onSelected: () -> Unit,
     selected: Boolean,
