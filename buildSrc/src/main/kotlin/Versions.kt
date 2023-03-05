@@ -10,7 +10,7 @@ object Versions {
         const val mockkVersion = "1.10.6"
     }
 
-    const val kotlinVersion = "1.7.0"
+    const val kotlinVersion = "1.8.10"
     const val materialVersion = "1.4.0"
     const val activityVersion = "1.6.1"
     const val fragmentVersion = "1.5.5"
@@ -27,8 +27,9 @@ object Versions {
 
     const val roomVersion = "2.4.2"
 
-    const val composeCompile = "1.2.0"
-    const val composeVersion = "1.2.0"
+    const val composeCompile = "1.4.2"
+    const val composeAlpha = "1.4.0-alpha05"
+    const val composeVersion = "1.3.1"
     const val composeViewModel = "2.5.1"
     const val composeActivity = "1.6.1"
     const val composeCoil = "1.4.0"

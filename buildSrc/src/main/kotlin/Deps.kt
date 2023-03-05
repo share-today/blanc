@@ -49,7 +49,7 @@ object Deps {
         const val composeUiTool = "androidx.compose.ui:ui-tooling:${Versions.composeVersion}"
         const val composeUiToolPreview ="androidx.compose.ui:ui-tooling-preview:${Versions.composeVersion}"
         const val composeFoundation =
-            "androidx.compose.foundation:foundation:${Versions.composeVersion}"
+            "androidx.compose.foundation:foundation:${Versions.composeAlpha}"
         const val composeMaterial = "androidx.compose.material:material:${Versions.composeVersion}"
         const val composeIconCore =
             "androidx.compose.material:material-icons-core:${Versions.composeVersion}"
