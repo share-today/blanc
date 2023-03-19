@@ -58,4 +58,13 @@
     <string name="dialog_button_send">보내기</string>
     <string name="dialog_button_edit">수정하기</string>
     <string name="dialog_button_delete">삭제하기</string>
+
+    <string name="message_send_complete">전송이 완료됐습니다.</string>
+    <string name="message_edit_complete">수정이 완료됐습니다.</string>
+    <string name="message_delete_complete">삭제가 완료됐습니다.</string>
+    <string name="message_report_complete">신고가 완료됐습니다.</string>
+    <string name="message_opinion_complete">의견이 접수됐습니다.</string>
+    <string name="message_like_complete">당신의 마음을 전달했습니다.</string>
+    <string name="message_watching_ads">최대 500자를 작성해보세요.</string>
+    <string name="action_watching_ads">광고 보기</string>
 </resources>

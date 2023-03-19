@@ -3,7 +3,10 @@ package com.wswon.blanc
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.blanc.data.service.ShareTodayApi
+import com.wswon.blanc.util.SnackbarData
+import com.wswon.blanc.util.SnackbarProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -11,6 +14,8 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val shareTodayApi: ShareTodayApi
 ) : ViewModel() {
+
+    val snackbarData: SharedFlow<SnackbarData> = SnackbarProvider.data
 
     init {
         viewModelScope.launch {

@@ -5,15 +5,12 @@ import androidx.activity.ComponentActivity
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.SnackbarDuration
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.SnackbarHost
 import androidx.compose.material.SnackbarHostState
-import androidx.compose.material.SnackbarResult
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
@@ -41,6 +38,9 @@ import com.wswon.blanc.ui.setting.screen.TermsOfServiceScreen
 import com.wswon.blanc.ui.someone.SomeoneYesterdayScreen
 import com.wswon.blanc.ui.theme.BlancTheme
 import com.wswon.blanc.ui.today.TodayScreen
+import com.wswon.blanc.util.CustomSnackBar
+import com.wswon.blanc.util.SnackbarProvider
+import com.wswon.blanc.util.SnackbarType
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.time.YearMonth
@@ -68,10 +68,18 @@ class MainActivity : ComponentActivity() {
     private fun MainScreen(
         viewModel: HomeViewModel = hiltViewModel()
     ) {
-
         val navController = rememberNavController()
         val currentBackStack by navController.currentBackStackEntryAsState()
         val currentDestination = currentBackStack?.destination
+
+        val snackbarData by viewModel.snackbarData.collectAsState(initial = null)
+        val snackState = remember { SnackbarHostState() }
+
+        LaunchedEffect(snackbarData) {
+            if (snackbarData != null) {
+                snackState.showSnackbar((0..Int.MAX_VALUE).random().toString())
+            }
+        }
 
         val currentScreen =
             BlancDestination.find(currentDestination?.route) ?: Today
@@ -92,6 +100,7 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+
         onBackPressedDispatcher.addCallback(
             this@MainActivity,
             callback
@@ -147,6 +156,7 @@ class MainActivity : ComponentActivity() {
                 ) { item ->
                     scope.launch {
                         scaffoldState.drawerState.close()
+                        SnackbarProvider.show(SnackbarType.values().random())
                     }
                     when (item) {
                         DrawerItem.Home -> {
@@ -169,24 +179,43 @@ class MainActivity : ComponentActivity() {
         ) { innerPadding ->
             BlancNavHost(navController, Modifier.padding(innerPadding))
         }
-    }
 
-    private suspend fun showSnackBar(snackbarHostState: SnackbarHostState) {
-        val result = snackbarHostState
-            .showSnackbar(
-                message = "Snackbar",
-                actionLabel = "광고보기",
-                duration = SnackbarDuration.Short
-            )
-        when (result) {
-            SnackbarResult.ActionPerformed -> {
-                /* Handle snackbar action performed */
-            }
-            SnackbarResult.Dismissed -> {
-                /* Handle snackbar dismissed */
+        Box(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            SnackbarHost(
+                modifier = Modifier.align(Alignment.BottomStart),
+                hostState = snackState
+            ) {
+                snackbarData?.let { data ->
+                    CustomSnackBar(
+                        snackbarData = data,
+                        containerColor = Color.White,
+                        onClickAction = {
+                            // TODO: 광고보기 등..
+                        }
+                    )
+                }
             }
         }
     }
+
+//    private suspend fun showSnackBar(snackbarHostState: SnackbarHostState) {
+//        val result = snackbarHostState
+//            .showSnackbar(
+//                message = "Snackbar",
+//                actionLabel = "광고보기",
+//                duration = SnackbarDuration.Short
+//            )
+//        when (result) {
+//            SnackbarResult.ActionPerformed -> {
+//                /* Handle snackbar action performed */
+//            }
+//            SnackbarResult.Dismissed -> {
+//                /* Handle snackbar dismissed */
+//            }
+//        }
+//    }
 }
 
 @Composable
