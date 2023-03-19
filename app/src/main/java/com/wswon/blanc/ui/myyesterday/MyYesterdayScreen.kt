@@ -11,12 +11,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import com.wswon.blanc.ui.component.Diary
+import com.wswon.blanc.ui.component.DiaryState
 import com.wswon.blanc.ui.component.dialog.BlancDialog
 import com.wswon.blanc.ui.component.dialog.DialogType
 import com.wswon.blanc.ui.component.dialog.ItemBottomSheetDialog
@@ -64,12 +63,16 @@ fun MyYesterdayScreen() {
     ) {
         Diary(
             modifier = Modifier.fillMaxWidth(),
-            backgroundBrush = Brush.verticalGradient(
-                colors = listOf(
-                    Color(0xFFE7EDFF),
-                    Color(0xFFD8E3FE)
-                )
+            diaryState = DiaryState(
+                id = "1",
+                dateLabel = "2023년 3월 11일",
+                content = "오늘은 상사에게 후배에게 하루종일 시달려서 지쳤어요. 중간에 껴서 새우등 터지고 있는데 어디가서 말해봤자 제 이미지만 안좋아지겠죠?",
+                likeButtonState = null,
+                background = DiaryState.Background.BlueGradient
             ),
+            onClickLike = {
+
+            },
             onClickMore = {
                 isBottomSheetDialogOpen = true
             }

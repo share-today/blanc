@@ -8,16 +8,16 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import com.wswon.blanc.ui.component.Diary
+import com.wswon.blanc.ui.component.DiaryState
 import com.wswon.blanc.ui.component.dialog.BlancDialog
 import com.wswon.blanc.ui.component.dialog.DialogType
 import com.wswon.blanc.ui.component.dialog.ItemBottomSheetDialog
 import com.wswon.blanc.ui.component.dialog.SheetItem
+import com.wswon.blanc.ui.component.state.LikeButtonState
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -83,12 +83,16 @@ fun SomeoneDiaryScreen() {
         ) { page ->
             Diary(
                 modifier = Modifier.fillMaxWidth(),
-                backgroundBrush = Brush.verticalGradient(
-                    colors = listOf(
-                        Color(0xFFFFE7E7),
-                        Color(0xFFFED8D8)
-                    )
+                diaryState = DiaryState(
+                    id = "1",
+                    dateLabel = "2023년 3월 11일",
+                    content = "하고싶은 일이 있는데 뜻대로 되지 않아요. 친구들은 그저 제 배경만 보고 부러워 하지만 그 안에서의 저는 죽을 맛입니다.",
+                    likeButtonState = LikeButtonState(isLike = false, isEnabled = true),
+                    background = DiaryState.Background.PinkGradient
                 ),
+                onClickLike = {
+
+                },
                 onClickMore = {
                     isBottomSheetDialogOpen = true
                 },
@@ -137,12 +141,16 @@ private fun MyComments() {
         modifier = Modifier
             .padding(top = 32.dp)
             .fillMaxWidth(),
-        backgroundBrush = Brush.verticalGradient(
-            colors = listOf(
-                Color.White.copy(alpha = 0.8f),
-                Color.White.copy(alpha = 0.8f)
-            )
+        diaryState = DiaryState(
+            id = "1",
+            dateLabel = "2023년 3월 11일",
+            content = "저도 비슷한 상황을 겪어봐서 알아요. 그 누구도 나의 힘듬을 공감해주지 않는.. 화이팅",
+            likeButtonState = LikeButtonState(isLike = true, isEnabled = false),
+            background = DiaryState.Background.LightGrayGradient
         ),
+        onClickLike = {
+
+        },
         onClickMore = {
             isBottomSheetDialogOpen = true
         },

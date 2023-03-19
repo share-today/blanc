@@ -31,7 +31,9 @@ fun TodayScreen() {
                     Color(0xFFD8E3FE)
                 )
             ),
-            inputTextMinHeight = 191.dp
+            inputTextMinHeight = 191.dp,
+            maxCount = 100,
+            dateLabel = "2023년 1월 22일"
         )
     }
 }

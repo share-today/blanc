@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -19,14 +20,16 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.wswon.blanc.R
 import com.wswon.blanc.ui.theme.DefaultState
 
-@Preview
 @Composable
 fun InputDiary(
     modifier: Modifier = Modifier,
@@ -36,7 +39,9 @@ fun InputDiary(
             Color(0xFFD8E3FE)
         )
     ),
-    inputTextMinHeight: Dp = 100.dp,
+    inputTextMinHeight: Dp = 72.dp,
+    maxCount: Int = 100,
+    dateLabel: String = "",
     onClickSend: () -> Unit = {}
 ) {
     ConstraintLayout(
@@ -52,12 +57,14 @@ fun InputDiary(
 
         val (date, inputText, textCounter, sendButton) = createRefs()
 
-        Text(
-            text = "2023년 1월 22일",
-            modifier = Modifier.constrainAs(date) {
-            },
-            style = MaterialTheme.typography.caption
-        )
+        if (dateLabel.isNotEmpty()) {
+            Text(
+                text = dateLabel,
+                modifier = Modifier.constrainAs(date) {
+                },
+                style = MaterialTheme.typography.caption
+            )
+        }
 
         InputText(
             modifier = Modifier
@@ -73,17 +80,19 @@ fun InputDiary(
 
         TextCounter(
             modifier = Modifier.constrainAs(textCounter) {
+                top.linkTo(sendButton.top)
+                bottom.linkTo(sendButton.bottom)
                 start.linkTo(parent.start)
-                bottom.linkTo(parent.bottom)
             },
-            textCount = textCount
+            textCount = textCount,
+            maxCount = maxCount,
         )
 
-        val sendEnabled = textCount > 0
+        val sendEnabled = textCount >= 10
         SendButton(
             modifier = Modifier.constrainAs(sendButton) {
+                top.linkTo(inputText.bottom, 32.dp)
                 end.linkTo(parent.end)
-                bottom.linkTo(parent.bottom)
             },
             enabled = sendEnabled,
             onClickSend = onClickSend
@@ -94,10 +103,16 @@ fun InputDiary(
 @Composable
 private fun TextCounter(
     modifier: Modifier,
-    textCount: Int
+    textCount: Int,
+    maxCount: Int = 100
 ) {
     Text(
-        text = "${textCount}/300",
+        text = AnnotatedString(
+            text = "${textCount}/${maxCount}",
+            spanStyle = SpanStyle(
+                textDecoration = TextDecoration.Underline
+            )
+        ),
         modifier = modifier,
         color = MaterialTheme.colors.primary,
         style = MaterialTheme.typography.caption
@@ -126,11 +141,13 @@ private fun SendButton(
             color = color,
             style = MaterialTheme.typography.button
         )
+        val icon =
+            if (enabled) R.drawable.ic_arrow_right_circle_enabled else R.drawable.ic_arrow_right_circle_disabled
         Icon(
-            painter = painterResource(id = R.drawable.ic_arrow_right_circle),
+            painter = painterResource(id = icon),
             contentDescription = null,
             modifier = Modifier.padding(start = 8.dp),
-            tint = color
+            tint = Color.Unspecified
         )
     }
 }
@@ -147,6 +164,7 @@ fun InputText(modifier: Modifier, onTextChanged: (String) -> Unit) {
             onTextChanged(it)
         },
         textStyle = MaterialTheme.typography.body2,
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
         decorationBox = { innerTextField ->
             if (value.isEmpty()) {
                 Text(
