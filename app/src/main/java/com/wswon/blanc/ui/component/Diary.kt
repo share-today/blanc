@@ -1,6 +1,8 @@
 package com.wswon.blanc.ui.component
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
@@ -16,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.wswon.blanc.R
 import com.wswon.blanc.ui.component.state.LikeButtonState
+import com.wswon.blanc.ui.theme.SubBackground
 
 data class DiaryState(
     val id: String,
@@ -26,6 +29,8 @@ data class DiaryState(
 ) {
 
     val backgroundBrush: Brush = background.backgroundBrush
+
+    val hasStroke: Boolean = background == Background.LightGrayGradientWithStroke
 
     enum class Background(val backgroundBrush: Brush) {
         BlueGradient(
@@ -45,6 +50,14 @@ data class DiaryState(
             )
         ),
         LightGrayGradient(
+            Brush.verticalGradient(
+                colors = listOf(
+                    Color.White.copy(alpha = 0.8f),
+                    Color.White.copy(alpha = 0.8f)
+                )
+            )
+        ),
+        LightGrayGradientWithStroke(
             Brush.verticalGradient(
                 colors = listOf(
                     Color.White.copy(alpha = 0.8f),
@@ -73,6 +86,14 @@ fun Diary(
                 brush = diaryState.backgroundBrush,
                 shape = RoundedCornerShape(8.dp)
             )
+            .run {
+                if (diaryState.hasStroke) {
+                    border(
+                        border = BorderStroke(width = 1.dp, color = SubBackground),
+                        shape = RoundedCornerShape(8.dp)
+                    )
+                } else this
+            }
             .padding(horizontal = 16.dp, vertical = 24.dp)
     ) {
         ConstraintLayout(
@@ -81,12 +102,15 @@ fun Diary(
 
             val (date, contentText, heartButton, moreButton) = createRefs()
 
-            Text(
-                text = diaryState.dateLabel,
-                modifier = Modifier.constrainAs(date) {
-                },
-                style = MaterialTheme.typography.caption
-            )
+
+            if (diaryState.dateLabel.isNotEmpty()) {
+                Text(
+                    text = diaryState.dateLabel,
+                    modifier = Modifier.constrainAs(date) {
+                    },
+                    style = MaterialTheme.typography.caption
+                )
+            }
 
             Text(
                 text = diaryState.content,
