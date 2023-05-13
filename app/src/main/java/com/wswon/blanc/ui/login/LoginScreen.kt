@@ -4,9 +4,23 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,7 +34,7 @@ import com.wswon.blanc.R
 import com.wswon.blanc.ui.theme.SubBackground
 
 @Composable
-fun LoginScreen(onClickLoginButton: () -> Unit) {
+fun LoginScreen(onClickLoginButton: (LoginButtonType) -> Unit) {
 
     Box(
         modifier = Modifier
@@ -62,21 +76,21 @@ fun LoginScreen(onClickLoginButton: () -> Unit) {
                 Modifier.fillMaxWidth(),
                 LoginButtonType.Kakao,
                 onClick = {
-                    onClickLoginButton()
+                    onClickLoginButton(it)
                 }
             )
             LoginButton(
                 Modifier.fillMaxWidth(),
                 LoginButtonType.Google,
                 onClick = {
-                    onClickLoginButton()
+                    onClickLoginButton(it)
                 }
             )
             LoginButton(
                 Modifier.fillMaxWidth(),
                 LoginButtonType.Apple,
                 onClick = {
-                    onClickLoginButton()
+                    onClickLoginButton(it)
                 }
             )
         }
@@ -131,11 +145,11 @@ enum class LoginButtonType(
 fun LoginButton(
     modifier: Modifier = Modifier,
     type: LoginButtonType = LoginButtonType.Kakao,
-    onClick: () -> Unit = {}
+    onClick: (LoginButtonType) -> Unit = {}
 ) {
     Button(
         onClick = {
-            onClick()
+            onClick(type)
         },
         modifier = modifier
             .heightIn(min = 56.dp),

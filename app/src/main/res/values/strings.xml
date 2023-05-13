@@ -67,4 +67,5 @@
     <string name="message_like_complete">당신의 마음을 전달했습니다.</string>
     <string name="message_watching_ads">최대 500자를 작성해보세요.</string>
     <string name="action_watching_ads">광고 보기</string>
+    <string name="google_web_client_id">102408685664-vnk2sskr2l7g339m6c740bb0si5307rt.apps.googleusercontent.com</string>
 </resources>

@@ -1,33 +1,59 @@
 package com.wswon.blanc
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.SnackbarHost
 import androidx.compose.material.SnackbarHostState
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.blanc.common.WLog
+import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.common.api.CommonStatusCodes
+import com.wswon.blanc.fcm.FcmUtil
+import com.wswon.blanc.login.GoogleLoginManager
+import com.wswon.blanc.login.KakaoLoginManager
 import com.wswon.blanc.ui.alert.AlertScreen
 import com.wswon.blanc.ui.calendar.CalendarScreen
 import com.wswon.blanc.ui.calendar.screen.DiaryDetailScreen
-import com.wswon.blanc.ui.component.*
+import com.wswon.blanc.ui.component.BlancTabRow
+import com.wswon.blanc.ui.component.BlancTopNavigation
+import com.wswon.blanc.ui.component.Day
+import com.wswon.blanc.ui.component.InputDiary
+import com.wswon.blanc.ui.component.RtlDrawerScaffold
 import com.wswon.blanc.ui.component.drawer.DrawerItem
 import com.wswon.blanc.ui.component.drawer.DrawerMenu
 import com.wswon.blanc.ui.component.drawer.DrawerMenuShape
+import com.wswon.blanc.ui.component.rememberScaffoldState
+import com.wswon.blanc.ui.login.LoginButtonType
 import com.wswon.blanc.ui.login.LoginScreen
 import com.wswon.blanc.ui.myyesterday.MyYesterdayScreen
 import com.wswon.blanc.ui.setting.SettingScreen
@@ -57,7 +83,81 @@ class MainActivity : ComponentActivity() {
                     MainScreen()
                 } else {
                     LoginScreen {
-                        isLogged = true
+//                        isLogged = true
+
+                        login(it)
+                    }
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            WLog.d("getToken ${FcmUtil.getToken()}")
+        }
+    }
+
+    private fun login(type: LoginButtonType) {
+        when (type) {
+            LoginButtonType.Kakao -> {
+                lifecycleScope.launch {
+                    KakaoLoginManager.login(this@MainActivity)
+                }
+            }
+            LoginButtonType.Google -> {
+                lifecycleScope.launch {
+                    GoogleLoginManager.login(this@MainActivity)
+                }
+            }
+            LoginButtonType.Apple -> {
+
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        when (requestCode) {
+            GoogleLoginManager.REQ_ONE_TAP -> {
+                try {
+                    val credential =
+                        GoogleLoginManager.oneTapClient.getSignInCredentialFromIntent(data)
+                    val idToken = credential.googleIdToken
+                    val username = credential.id
+                    val password = credential.password
+
+                    WLog.d("idToken $idToken\n username $username\n password $password")
+                    when {
+                        idToken != null -> {
+                            // Got an ID token from Google. Use it to authenticate
+                            // with your backend.
+                            WLog.d("Got ID token.")
+                        }
+                        password != null -> {
+                            // Got a saved username and password. Use them to authenticate
+                            // with your backend.
+                            WLog.d("Got password.")
+                        }
+                        else -> {
+                            // Shouldn't happen.
+                            WLog.d("No ID token or password!")
+                        }
+                    }
+                } catch (e: ApiException) {
+                    e.printStackTrace()
+                    when (e.statusCode) {
+                        CommonStatusCodes.CANCELED -> {
+                            WLog.d("One-tap dialog was closed.")
+                            // Don't re-prompt the user.
+                        }
+                        CommonStatusCodes.NETWORK_ERROR -> {
+                            WLog.d("One-tap encountered a network error.")
+                            // Try again or just ignore.
+                        }
+                        else -> {
+                            WLog.d("Couldn't get credential from result." +
+                                " (${e.localizedMessage})")
+                        }
                     }
                 }
             }

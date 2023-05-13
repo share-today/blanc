@@ -1,3 +1,6 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -26,13 +29,63 @@ android {
         }
     }
 
+    signingConfigs {
+        val keystorePropertiesFile = rootProject.file(Signing.KEY_STORE_PROPERTIES)
+        if (keystorePropertiesFile.exists()) {
+            this.create("release") {
+                val keystoreProperties = Properties()
+                keystoreProperties.load(FileInputStream(keystorePropertiesFile))
+
+                keyAlias = keystoreProperties[Signing.KEY_ALIAS] as String
+                keyPassword = keystoreProperties[Signing.KEY_PASSWORD] as String
+                storeFile = file(keystoreProperties[Signing.STORE_FILE] as String)
+                storePassword = keystoreProperties[Signing.STORE_PASSWORD] as String
+            }
+        }
+    }
+
     buildTypes {
-        getByName("release") {
+        val STRING = "String"
+        val KAKAO_REST_KEY = "KAKAO_REST_KEY"
+        val KAKAO_SDK_KEY = "KAKAO_SDK_KEY"
+        val KAKAO_REST_KEY_RELEASE = "\"4b156aaa5781831d5b2a4dd7d4370fc1\""
+        val KAKAO_SDK_KEY_RELEASE = "\"4b156aaa5781831d5b2a4dd7d4370fc1\""
+
+        debug {
+            isDebuggable =  true
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+
+            buildConfigField(STRING, KAKAO_REST_KEY, KAKAO_REST_KEY_RELEASE)
+            buildConfigField(STRING, KAKAO_SDK_KEY, KAKAO_SDK_KEY_RELEASE)
+
+            addManifestPlaceholders(
+                mapOf(
+                    "KakaoAppKey" to KAKAO_SDK_KEY_RELEASE
+                )
+            )
+        }
+
+        release {
+            isDebuggable = true
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+
+            buildConfigField(STRING, KAKAO_REST_KEY, KAKAO_REST_KEY_RELEASE)
+            buildConfigField(STRING, KAKAO_SDK_KEY, KAKAO_SDK_KEY_RELEASE)
+
+            addManifestPlaceholders(
+                mapOf(
+                    "KakaoAppKey" to KAKAO_SDK_KEY_RELEASE
+                )
+            )
+
+            val keystorePropertiesFile = rootProject.file(Signing.KEY_STORE_PROPERTIES)
+            if (keystorePropertiesFile.exists()) {
+                signingConfig = signingConfigs.getByName("release")
+            }
         }
     }
     compileOptions {
@@ -89,6 +142,7 @@ dependencies {
     implementation(Deps.Firebase.analytics)
     implementation(Deps.Firebase.crashlytics)
     implementation(Deps.Firebase.config)
+    implementation(Deps.Firebase.messaging)
 
     implementation(Deps.Android.X.core)
     implementation(Deps.Android.X.activity)
@@ -109,5 +163,8 @@ dependencies {
     implementation(Deps.Room.room)
     kapt(Deps.Room.roomCompiler)
     implementation(Deps.Room.roomRx)
+
+    implementation("com.kakao.sdk:v2-user:2.13.0")
+    implementation("com.google.android.gms:play-services-auth:20.5.0")
 
 }
