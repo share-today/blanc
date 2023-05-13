@@ -2,6 +2,10 @@ package com.wswon.blanc.login
 
 import android.content.Context
 import com.blanc.common.WLog
+import com.blanc.domain.user.entity.AccessToken
+import com.blanc.domain.user.entity.Email
+import com.blanc.domain.user.entity.RefreshToken
+import com.blanc.domain.user.entity.SnsType
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
@@ -40,17 +44,28 @@ object KakaoLoginManager {
         UserApiClient.instance
     }
 
-    suspend fun login(context: Context) {
-        kotlin.runCatching {
+    suspend fun login(context: Context): LoginResult? {
+        return kotlin.runCatching {
             val oAuthToken = getOAuthToken(context).getOrThrow()
             val accountInfo = getAccountInfo()
 
             WLog.d("oAuthToken $oAuthToken accountInfo $accountInfo")
+            LoginResult(
+                snsType = SnsType.Kakao,
+                id = accountInfo.id.toString(),
+                token = LoginResult.Token(
+                    token = AccessToken(oAuthToken.accessToken),
+                    refreshToken = RefreshToken(oAuthToken.refreshToken),
+                    expiresAt = oAuthToken.accessTokenExpiresAt
+                ),
+                email = Email(accountInfo.email)
+            )
         }
             .onFailure {
                 it.printStackTrace()
                 WLog.e(it)
             }
+            .getOrNull()
     }
 
     private suspend fun getOAuthToken(context: Context): Result<OAuthToken> {

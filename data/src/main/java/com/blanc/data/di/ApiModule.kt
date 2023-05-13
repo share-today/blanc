@@ -1,6 +1,7 @@
 package com.blanc.data.di
 
 import com.blanc.data.service.ShareTodayApi
+import com.blanc.data.service.UserApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,7 +16,9 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 internal object ApiModule {
 
-    private const val BASE_URL = "http://share-today.duckdns.org"
+    private const val LEGACY_BASE_URL = "http://share-today.duckdns.org"
+
+    private const val BASE_URL = "https://share-today.site"
 
     @Singleton
     @Provides
@@ -25,10 +28,25 @@ internal object ApiModule {
         val client = OkHttpClient.Builder().addInterceptor(interceptor).build()
 
         return Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(LEGACY_BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .build()
             .create(ShareTodayApi::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideUserApi(): UserApi {
+        val interceptor = HttpLoggingInterceptor()
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
+        val client = OkHttpClient.Builder().addInterceptor(interceptor).build()
+
+        return Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(client)
+            .build()
+            .create(UserApi::class.java)
     }
 }

@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -38,7 +39,6 @@ import androidx.navigation.compose.rememberNavController
 import com.blanc.common.WLog
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.CommonStatusCodes
-import com.wswon.blanc.fcm.FcmUtil
 import com.wswon.blanc.login.GoogleLoginManager
 import com.wswon.blanc.login.KakaoLoginManager
 import com.wswon.blanc.ui.alert.AlertScreen
@@ -73,6 +73,9 @@ import java.time.YearMonth
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    private val loginViewModel by viewModels<LoginViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -90,17 +93,18 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-
-        lifecycleScope.launch {
-            WLog.d("getToken ${FcmUtil.getToken()}")
-        }
     }
 
-    private fun login(type: LoginButtonType) {
+    private fun login(
+        type: LoginButtonType
+    ) {
         when (type) {
             LoginButtonType.Kakao -> {
                 lifecycleScope.launch {
-                    KakaoLoginManager.login(this@MainActivity)
+                    val result = KakaoLoginManager.login(this@MainActivity)
+                    if (result != null) {
+                        loginViewModel.login(result)
+                    }
                 }
             }
             LoginButtonType.Google -> {
