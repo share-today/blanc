@@ -128,3 +128,10 @@ object OpenSourceLicense : BlancDestination {
     override val route = "open_source_license"
     override val isRouteScreen: Boolean = false
 }
+
+object Logout : BlancDestination {
+    @StringRes
+    override val displayNameResId = R.string.setting_logout
+    override val route = "logout"
+    override val isRouteScreen: Boolean = false
+}

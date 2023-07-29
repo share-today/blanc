@@ -1,7 +1,12 @@
 package com.wswon.blanc.ui.setting
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
@@ -18,8 +23,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.wswon.blanc.*
+import com.wswon.blanc.BuildConfig
+import com.wswon.blanc.Logout
+import com.wswon.blanc.OpenSourceLicense
+import com.wswon.blanc.PrivacyPolicy
 import com.wswon.blanc.R
+import com.wswon.blanc.SendComments
+import com.wswon.blanc.TermsOfService
+import com.wswon.blanc.navigateSingleTopTo
 import com.wswon.blanc.ui.component.SectionHeaderView
 import com.wswon.blanc.ui.component.dialog.BlancDialog
 import com.wswon.blanc.ui.component.dialog.DialogType
@@ -42,6 +53,20 @@ fun SettingScreen(navController: NavHostController) {
         )
     }
 
+    val showLogoutDialog = rememberSaveable { mutableStateOf(false) }
+    if (showLogoutDialog.value) {
+        BlancDialog(
+            DialogType.Logout,
+            showLogoutDialog.value,
+            onConfirm = {
+                navController.navigateSingleTopTo(Logout.route)
+                showLogoutDialog.value = false
+            },
+            onDismiss = {
+                showLogoutDialog.value = false
+            }
+        )
+    }
 
     val onClickItem: (SettingItemType) -> Unit = { itemType ->
         when (itemType) {
@@ -70,7 +95,7 @@ fun SettingScreen(navController: NavHostController) {
 
             }
             SettingItemType.Logout -> {
-
+                showLogoutDialog.value = true
             }
             SettingItemType.Leave -> {
 

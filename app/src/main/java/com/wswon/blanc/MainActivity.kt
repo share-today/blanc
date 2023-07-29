@@ -80,18 +80,24 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             BlancTheme {
-                loginViewModel
-                var isLogged by rememberSaveable { mutableStateOf(false) }
+                BlancMainScreen()
+            }
+        }
+    }
 
-                if (isLogged) {
-                    MainScreen()
-                } else {
-                    LoginScreen {
-//                        isLogged = true
+    @Composable
+    private fun BlancMainScreen(loginViewModel: LoginViewModel = hiltViewModel()) {
+        var isLogged by rememberSaveable { mutableStateOf(false) }
 
-                        login(it)
-                    }
-                }
+        val loginResult by loginViewModel.loginResult.collectAsState(initial = null)
+
+        isLogged = loginResult != null
+
+        if (isLogged) {
+            MainScreen(loginViewModel = loginViewModel)
+        } else {
+            LoginScreen {
+                login(it)
             }
         }
     }
@@ -160,8 +166,10 @@ class MainActivity : ComponentActivity() {
                             // Try again or just ignore.
                         }
                         else -> {
-                            WLog.d("Couldn't get credential from result." +
-                                " (${e.localizedMessage})")
+                            WLog.d(
+                                "Couldn't get credential from result." +
+                                    " (${e.localizedMessage})"
+                            )
                         }
                     }
                 }
@@ -171,7 +179,8 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     private fun MainScreen(
-        viewModel: HomeViewModel = hiltViewModel()
+        viewModel: HomeViewModel = hiltViewModel(),
+        loginViewModel: LoginViewModel,
     ) {
         val navController = rememberNavController()
         val currentBackStack by navController.currentBackStackEntryAsState()
@@ -282,7 +291,7 @@ class MainActivity : ComponentActivity() {
             modifier = Modifier
                 .background(Color.Transparent)
         ) { innerPadding ->
-            BlancNavHost(navController, Modifier.padding(innerPadding))
+            BlancNavHost(navController, Modifier.padding(innerPadding), loginViewModel)
         }
 
         Box(
@@ -327,6 +336,7 @@ class MainActivity : ComponentActivity() {
 fun BlancNavHost(
     navController: NavHostController,
     modifier: Modifier,
+    loginViewModel: LoginViewModel,
 ) {
     NavHost(
         navController = navController,
@@ -377,6 +387,9 @@ fun BlancNavHost(
         }
         composable(route = OpenSourceLicense.route) {
             OpenSourceLicenseScreen()
+        }
+        composable(route = Logout.route) {
+            loginViewModel.logout()
         }
     }
 }
