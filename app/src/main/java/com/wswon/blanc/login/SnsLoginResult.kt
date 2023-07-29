@@ -6,7 +6,7 @@ import com.blanc.domain.user.entity.RefreshToken
 import com.blanc.domain.user.entity.SnsType
 import java.util.Date
 
-data class LoginResult(
+data class SnsLoginResult(
     val snsType: SnsType,
     val id: String,
     val token: Token,

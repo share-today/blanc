@@ -14,7 +14,7 @@ abstract class RemoteModule {
 
     @Singleton
     @Binds
-    abstract fun bindUserRepository(
+    abstract fun bindUserRemoteDataSource(
         userRemoteDataSourceImpl: UserRemoteDataSourceImpl
     ): UserRemoteDataSource
 

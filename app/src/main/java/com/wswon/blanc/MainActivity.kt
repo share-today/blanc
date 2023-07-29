@@ -80,6 +80,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             BlancTheme {
+                loginViewModel
                 var isLogged by rememberSaveable { mutableStateOf(false) }
 
                 if (isLogged) {

@@ -52,4 +52,6 @@ dependencies {
     implementation(Deps.Room.room)
     kapt(Deps.Room.roomCompiler)
     implementation(Deps.Room.roomRx)
+
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
 }

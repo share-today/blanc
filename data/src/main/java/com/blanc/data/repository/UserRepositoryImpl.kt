@@ -1,9 +1,10 @@
 package com.blanc.data.repository
 
-import com.blanc.data.model.request.LoginApiRequest
-import com.blanc.data.model.request.RenewAccessTokenApiRequest
-import com.blanc.data.model.request.RenewPushTokenApiRequest
-import com.blanc.data.model.request.UpdateAlertSettingApiRequest
+import com.blanc.data.local.UserLocalDataSource
+import com.blanc.data.model.request.LoginRequestBody
+import com.blanc.data.model.request.RenewAccessTokenRequestBody
+import com.blanc.data.model.request.RenewPushTokenRequestBody
+import com.blanc.data.model.request.UpdateAlertSettingRequestBody
 import com.blanc.data.remote.UserRemoteDataSource
 import com.blanc.domain.shared.entity.ResultMessage
 import com.blanc.domain.user.entity.JsonWebToken
@@ -17,12 +18,13 @@ import com.blanc.domain.user.result.LoginResult
 import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(
-    private val userRemoteDataSource: UserRemoteDataSource
+    private val userRemoteDataSource: UserRemoteDataSource,
+    private val userLocalDataSource: UserLocalDataSource
 ) : UserRepository {
 
     override suspend fun login(request: LoginRequest): LoginResult {
         val loginResponse = userRemoteDataSource.login(
-            LoginApiRequest(
+            LoginRequestBody(
                 sns = request.snsType.snsName,
                 snsId = request.snsId,
                 email = request.email.value,
@@ -30,21 +32,25 @@ class UserRepositoryImpl @Inject constructor(
             )
         )
 
-        return LoginResult(
+        val loginResult = LoginResult(
             UserId(loginResponse.userId),
             JsonWebToken(loginResponse.jwt.orEmpty())
         )
+
+        userLocalDataSource.storeLoginResult(loginResult)
+        return loginResult
     }
 
     override suspend fun logout(): ResultMessage {
-        return ResultMessage(userRemoteDataSource.logout())
+        val message = userRemoteDataSource.logout()
+        userLocalDataSource.clear()
+        return ResultMessage(message)
     }
 
     override suspend fun renewPushToken(request: RenewPushTokenRequest): ResultMessage {
         return ResultMessage(
             userRemoteDataSource.renewPushToken(
-                request.userId.value,
-                RenewPushTokenApiRequest(request.pushToken.value)
+                RenewPushTokenRequestBody(request.pushToken.value)
             )
         )
     }
@@ -52,8 +58,7 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun updateAlertSetting(request: UpdateAlertSettingRequest): ResultMessage {
         return ResultMessage(
             userRemoteDataSource.updateAlertSetting(
-                request.userId.value,
-                UpdateAlertSettingApiRequest(
+                UpdateAlertSettingRequestBody(
                     request.isAlertEnable
                 )
             )
@@ -63,8 +68,7 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun renewAccessToken(request: RenewAccessTokenRequest): ResultMessage {
         return ResultMessage(
             userRemoteDataSource.renewAccessToken(
-                request.userId.value,
-                RenewAccessTokenApiRequest(
+                RenewAccessTokenRequestBody(
                     request.snsType.snsName,
                     request.accessToken.value
                 )

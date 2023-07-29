@@ -3,7 +3,7 @@ package com.blanc.data.model.request
 
 import com.google.gson.annotations.SerializedName
 
-data class LoginApiRequest(
+data class LoginRequestBody(
     @SerializedName("sns")
     val sns: String,
     @SerializedName("snsId")

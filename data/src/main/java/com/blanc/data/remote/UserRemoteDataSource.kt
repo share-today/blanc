@@ -1,32 +1,29 @@
 package com.blanc.data.remote
 
-import com.blanc.data.model.request.LoginApiRequest
-import com.blanc.data.model.request.RenewAccessTokenApiRequest
-import com.blanc.data.model.request.RenewPushTokenApiRequest
-import com.blanc.data.model.request.UpdateAlertSettingApiRequest
+import com.blanc.data.model.request.LoginRequestBody
+import com.blanc.data.model.request.RenewAccessTokenRequestBody
+import com.blanc.data.model.request.RenewPushTokenRequestBody
+import com.blanc.data.model.request.UpdateAlertSettingRequestBody
 import com.blanc.data.model.response.LoginResponse
 
 interface UserRemoteDataSource {
 
     suspend fun login(
-        request: LoginApiRequest
+        request: LoginRequestBody
     ): LoginResponse
 
     suspend fun logout(): String
 
     suspend fun renewPushToken(
-        userId: Int,
-        request: RenewPushTokenApiRequest
+        request: RenewPushTokenRequestBody
     ): String
 
     suspend fun updateAlertSetting(
-        userId: Int,
-        request: UpdateAlertSettingApiRequest
+        request: UpdateAlertSettingRequestBody
     ): String
 
     suspend fun renewAccessToken(
-        userId: Int,
-        request: RenewAccessTokenApiRequest
+        request: RenewAccessTokenRequestBody
     ): String
 }
 

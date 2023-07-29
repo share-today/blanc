@@ -44,16 +44,16 @@ object KakaoLoginManager {
         UserApiClient.instance
     }
 
-    suspend fun login(context: Context): LoginResult? {
+    suspend fun login(context: Context): SnsLoginResult? {
         return kotlin.runCatching {
             val oAuthToken = getOAuthToken(context).getOrThrow()
             val accountInfo = getAccountInfo()
 
             WLog.d("oAuthToken $oAuthToken accountInfo $accountInfo")
-            LoginResult(
+            SnsLoginResult(
                 snsType = SnsType.Kakao,
                 id = accountInfo.id.toString(),
-                token = LoginResult.Token(
+                token = SnsLoginResult.Token(
                     token = AccessToken(oAuthToken.accessToken),
                     refreshToken = RefreshToken(oAuthToken.refreshToken),
                     expiresAt = oAuthToken.accessTokenExpiresAt

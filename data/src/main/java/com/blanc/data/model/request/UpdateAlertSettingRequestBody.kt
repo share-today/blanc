@@ -2,7 +2,7 @@ package com.blanc.data.model.request
 
 import com.google.gson.annotations.SerializedName
 
-data class UpdateAlertSettingApiRequest(
+data class UpdateAlertSettingRequestBody(
     @SerializedName("alert")
     val isAlertEnable: Boolean
 )
