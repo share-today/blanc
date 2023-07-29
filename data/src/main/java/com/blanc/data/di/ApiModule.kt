@@ -1,5 +1,6 @@
 package com.blanc.data.di
 
+import com.blanc.data.service.DiaryApi
 import com.blanc.data.service.ShareTodayApi
 import com.blanc.data.service.UserApi
 import dagger.Module
@@ -20,24 +21,7 @@ internal object ApiModule {
 
     private const val BASE_URL = "https://share-today.site"
 
-    @Singleton
-    @Provides
-    fun provideShareTodayApi(): ShareTodayApi {
-        val interceptor = HttpLoggingInterceptor()
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
-        val client = OkHttpClient.Builder().addInterceptor(interceptor).build()
-
-        return Retrofit.Builder()
-            .baseUrl(LEGACY_BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(client)
-            .build()
-            .create(ShareTodayApi::class.java)
-    }
-
-    @Singleton
-    @Provides
-    fun provideUserApi(): UserApi {
+    private fun getDefaultRetrofit(): Retrofit {
         val interceptor = HttpLoggingInterceptor()
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
         val client = OkHttpClient.Builder().addInterceptor(interceptor).build()
@@ -47,6 +31,26 @@ internal object ApiModule {
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .build()
+    }
+
+    @Singleton
+    @Provides
+    fun provideShareTodayApi(): ShareTodayApi {
+        return getDefaultRetrofit()
+            .create(ShareTodayApi::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideUserApi(): UserApi {
+        return getDefaultRetrofit()
             .create(UserApi::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideDiaryApi(): DiaryApi {
+        return getDefaultRetrofit()
+            .create(DiaryApi::class.java)
     }
 }

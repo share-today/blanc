@@ -1,5 +1,7 @@
 package com.blanc.data.di
 
+import com.blanc.data.remote.DiaryRemoteDataSource
+import com.blanc.data.remote.DiaryRemoteDataSourceImpl
 import com.blanc.data.remote.UserRemoteDataSource
 import com.blanc.data.remote.UserRemoteDataSourceImpl
 import dagger.Binds
@@ -17,5 +19,11 @@ abstract class RemoteModule {
     abstract fun bindUserRemoteDataSource(
         userRemoteDataSourceImpl: UserRemoteDataSourceImpl
     ): UserRemoteDataSource
+
+    @Singleton
+    @Binds
+    abstract fun bindDiaryRemoteDataSource(
+        diaryRemoteDataSourceImpl: DiaryRemoteDataSourceImpl
+    ): DiaryRemoteDataSource
 
 }

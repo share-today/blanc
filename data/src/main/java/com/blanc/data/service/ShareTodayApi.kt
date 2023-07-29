@@ -1,6 +1,6 @@
 package com.blanc.data.service
 
-import com.blanc.data.model.request.DiaryRequest
+import com.blanc.data.model.request.PostDiaryRequestBody
 import com.blanc.data.model.response.DiaryListResponse
 import com.blanc.data.model.response.SomeoneDiaryResponse
 import com.blanc.data.model.response.TodayDiaryResponse
@@ -22,7 +22,7 @@ interface ShareTodayApi {
 
     @POST("/api/home/for-someone")
     suspend fun postDiary(
-        @Body request: DiaryRequest
+        @Body request: PostDiaryRequestBody
     ): String
 
     @GET("/api/home/today-diary")

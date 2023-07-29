@@ -3,7 +3,7 @@ package com.wswon.blanc
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.activity.OnBackPressedCallback
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.background
@@ -203,23 +203,14 @@ class MainActivity : ComponentActivity() {
         val scaffoldState = rememberScaffoldState()
         val scope = rememberCoroutineScope()
 
-        val callback = remember {
-            object : OnBackPressedCallback(scaffoldState.drawerState.isOpen) {
-                override fun handleOnBackPressed() {
-                    if (scaffoldState.drawerState.isOpen) {
-                        scope.launch {
-                            scaffoldState.drawerState.close()
-                        }
-                    }
+        BackHandler(
+            enabled = scaffoldState.drawerState.isOpen,
+            onBack = {
+                scope.launch {
+                    scaffoldState.drawerState.close()
                 }
             }
-        }
-
-        onBackPressedDispatcher.addCallback(
-            this@MainActivity,
-            callback
         )
-        callback.isEnabled = scaffoldState.drawerState.isOpen
 
         RtlDrawerScaffold(
             scaffoldState = scaffoldState,

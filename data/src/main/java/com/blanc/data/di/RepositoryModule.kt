@@ -1,6 +1,8 @@
 package com.blanc.data.di
 
+import com.blanc.data.repository.DiaryRepositoryImpl
 import com.blanc.data.repository.UserRepositoryImpl
+import com.blanc.domain.user.repository.DiaryRepository
 import com.blanc.domain.user.repository.UserRepository
 import dagger.Binds
 import dagger.Module
@@ -17,5 +19,11 @@ abstract class RepositoryModule {
     abstract fun bindUserRepository(
         userRepositoryImpl: UserRepositoryImpl
     ): UserRepository
+
+    @Singleton
+    @Binds
+    abstract fun bindDiaryRepository(
+        diaryRepositoryImpl: DiaryRepositoryImpl
+    ): DiaryRepository
 
 }
